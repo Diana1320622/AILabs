@@ -19,34 +19,42 @@ if len(sys.argv) == 2:
     final = goalClean.split('; ')
     
     i = 0;
-    dictStacks = dict() #donde siempre esta el estado nuevo
-    dictGoal = dict()
+    diccionarioStacks = {} #donde siempre esta el estado nuevo
+    diccionarioGoal = {}
     
-    G = nx.Graph(stacks = dictStacks )
-    #fill dictionary with start
+    
+    #fill diccionarioionary with start
+    for j in range(0,len(containers)):
+        diccionarioStacks[j] = []
+        diccionarioGoal[j] = []
+    print ("test")
+    print diccionarioStacks
+    print diccionarioGoal
+    G = nx.Graph(stacks = diccionarioStacks )
+    i=0
     for pair in containers:
-        dictStacks[i]=[pair]
+        diccionarioStacks[i].append(pair)
         i = i+1
     i=0
-    #fill dictionary with goal
-    for pair in final:
-        dictGoal[i]=[pair]
+    #fill diccionarioionary with goal
+    for pair in final
+        diccionarioGoal[i].append(pair)
         i = i+1
     
-    # print dictStacks
-    # print dictGoal
-    nodeCount = 0
-    G.add_node(nodeCount, stacks=dictStacks)
-    
+    # print diccionarioStacks
+    # print diccionarioGoal
+    nodeCount = 1
+    G.add_node(nodeCount, stacks=diccionarioStacks)
+    nodeCount = nodeCount+1
     lengthStack = []
     moveStack = [] #(start,finish)
     
     #empty container
-    for key in dictStacks:
-        if '' in dictStacks[key]:
+    for key in diccionarioStacks:
+        if '' in diccionarioStacks[key]:
             lengthStack.append(0)
         else:
-            lengthStack.append(len(dictStacks[key]))
+            lengthStack.append(len(diccionarioStacks[key]))
     
     xCount = 0
     yCount = 0
@@ -61,34 +69,33 @@ if len(sys.argv) == 2:
                         
     for move in moveStack:
         print "original"
-        print dictStacks
-        newStack = dict()
-        copy.deepcopy(dictStacks)
-        # newStack = dictStacks.copy()
+        print diccionarioStacks
+        newStack = {}
+        newStack = copy.deepcopy(diccionarioStacks)
+        # newStack = diccionarioStacks.copy()
         aux = move.split(',')
         fin = int(aux[1])
         orig = int(aux[0])
         # print newStack[orig].pop()
-        newStack[fin].append(newStack[orig].pop())
+        if '' in newStack[fin]:
+            newStack[fin].append(newStack[orig].pop())
+            ind = newStack[fin].index('')
+            newStack[fin].pop(ind)
+        else:
+            newStack[fin].append(newStack[orig].pop())
         G.add_node(nodeCount, stacks=newStack)
         print("new stack")
         print newStack
         nodeCount = nodeCount+1
-        
-        
-
     
-    # G.add_node(nodeCount, stacks=dictStacks)
-    # dictStacks[2].append(dictStacks[0].pop())
-    # G.add_node(2, stacks=dictStacks)
+    # G.add_node(nodeCount, stacks=diccionarioStacks)
+    # diccionarioStacks[2].append(diccionarioStacks[0].pop())
+    # G.add_node(2, stacks=diccionarioStacks)
     # G.add_edge(1, 2, weight=3)
     print ("graph")
     print G.graph
-    print ("node")
+    # print ("node")
     print G.node(data=True)
-
     
 else:
     print("Invalid input")
-
-    

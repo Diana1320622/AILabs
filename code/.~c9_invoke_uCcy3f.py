@@ -1,6 +1,6 @@
 import sys
 import networkx as nx
-import copy
+impor
 
 if len(sys.argv) == 2:
     inputs = sys.argv
@@ -30,17 +30,14 @@ if len(sys.argv) == 2:
     print ("test")
     print diccionarioStacks
     print diccionarioGoal
-   # G = nx.Graph(stacks = diccionarioStacks )
-    G = nx.Graph() 
-    G.graph['stacks'] = diccionarioStacks 
-    
+    G = nx.Graph(stacks = diccionarioStacks )
     i=0
     for pair in containers:
         diccionarioStacks[i].append(pair)
         i = i+1
     i=0
     #fill diccionarioionary with goal
-    for pair in final:
+    for pair in final
         diccionarioGoal[i].append(pair)
         i = i+1
     
@@ -98,8 +95,7 @@ if len(sys.argv) == 2:
     print ("graph")
     print G.graph
     # print ("node")
-
-    print G.nodes(data=True) 
+    print G.node(data=True)
     
 else:
     print("Invalid input")
