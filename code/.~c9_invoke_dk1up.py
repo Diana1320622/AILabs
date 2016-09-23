@@ -62,7 +62,8 @@ if len(sys.argv) == 2:
     for move in moveStack:
         print "original"
         print dictStacks
-        newStack = copy.deepcopy(dictStacks)
+        newStack = dict()
+        copy.deepcopy(dictStacks)
         # newStack = dictStacks.copy()
         aux = move.split(',')
         fin = int(aux[1])
