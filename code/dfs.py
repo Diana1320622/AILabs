@@ -30,9 +30,9 @@ if len(sys.argv) == 2:
     print ("test")
     print diccionarioStacks
     print diccionarioGoal
-   # G = nx.Graph(stacks = diccionarioStacks )
-    G = nx.Graph() 
-    G.graph['stacks'] = diccionarioStacks 
+    G = nx.Graph(stacks = diccionarioStacks )
+    #G = nx.Graph() 
+   # G.graph['stacks'] = diccionarioStacks 
     
     i=0
     for pair in containers:
