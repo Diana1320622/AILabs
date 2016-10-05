@@ -61,8 +61,7 @@ def lookforNode(n):
     for node in visitedStack:
         if node.problem == n.problem:
             return True
-        else:
-            return False
+    return False
 
 def bfs(stateQueue, start, goal):
     #pop from stack

@@ -82,11 +82,14 @@ def totalSuccesors(currentNode):
     return
 
 def lookforNode(n):
-    for node in visitedStack:
-        if node.problem == n.problem:
+    # print "checkvisitedstack:",len(visitedStack)
+    for visit in visitedStack:
+        # print "valuecheck:",visit.problem
+        if visit.problem == n.problem:
+            # print "found!"
             return True
-        else:
-            return False
+        
+    return False
 
 def checkGoal(node,goal):
     count = 0

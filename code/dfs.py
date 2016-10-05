@@ -69,15 +69,14 @@ def createList(move, parentList):
     
     
 def lookforNode(n):
-    print "checkvisitedstack:",len(visitedStack)
-    for node in visitedStack:
-        print "problemVisited:",node.problem
-        print "node.problem:",n.problem
-        if node.problem == n.problem:
-            print "found!"
+    # print "checkvisitedstack:",len(visitedStack)
+    for visit in visitedStack:
+        # print "valuecheck:",visit.problem
+        if visit.problem == n.problem:
+            # print "found!"
             return True
-        else:
-            return False
+        
+    return False
 
 def dfs(stateQueue, start, goal):
     #push the root node into the stack
@@ -93,16 +92,16 @@ def dfs(stateQueue, start, goal):
     global moveCount # needs to be declared global 
     moveCount = 0
     
-    for i in range(0,5):
-    # while stateQueue:
-        print goal
-        print start
+    # for i in range(0,5):
+    while stateQueue:
+        # print goal
+        # print start
         lengthStack = []
         moveStack = [] #(start,finish)
         aux = stateQueue.pop(0) #pop first
         moveCount = moveCount+1
         #add to the visited states
-        print 'popped node:',aux.problem
+        # print 'popped node:',aux.problem
         pathStack.append(aux.action)
         # visitedStack.insert(0,aux) #--------
         visitedStack.append(aux)
@@ -131,12 +130,12 @@ def dfs(stateQueue, start, goal):
                 else:
                     xCount = xCount+1
     
-            print 'moveStack:',moveStack                    
+            # print 'moveStack:',moveStack                    
             #add nodes to the queue
             for move in moveStack:
                 # print 'aux problem:', aux.problem
                 newNode = childNode(createList(move,aux.problem),aux,move)
-                print 'new:',newNode.problem
+                # print 'new:',newNode.problem
                 if not lookforNode(newNode):
                     stateQueue.insert(0,newNode) #-------
     return False            
