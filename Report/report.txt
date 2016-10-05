@@ -1,10 +1,9 @@
 Make a table comparing how many nodes are searched to find the answer for each problem. For this table, you should compare a number of different problems (at least 3) to avoid a statistical bias. 
 
 	                Dummy1      Dummy2	    Dummy3
-Dfs			        
-Bfs			
-A* consistent			
-A* inconsistent			
+Dfs			          12           4        No solution
+Bfs			          2           11        No solution    
+A* consistent		  4	          11
 
 
 1) Which heuristics did you use for the A* algorithm?
@@ -12,9 +11,17 @@ For the A* algorithm our consistent heuristic was the travel length to one stack
 For example: if we have a container in 0 stack and we want to move it to 2stack, then the number of movements are 2.
 We use: abs(finalpoint - initialpoint), in order to get the number of movements.
 
-For the inconsistent heuristic 
+We didn't have time to implement the inconsistent heuristic, but if we would have, the heuristic would have had a value assigned that was greater than the longest path.  
 
 2) Which of the four algorithms searches the least nodes and which one take the most?
+The algorithm that searches the least nodes was BFS and the one that takes the most is DFS.
 3) Why does this happen? 
+This is because it stores as fifo, but knowing which nodes to traverse once we get to the next level.  DFS takes longer because is has to go through each branch and go through its max depth.
+So, if the solution is not found in that branch, you must backtrack and go through another branch.
+
 4) Which algorithms are optimal? Why?
+BFS is not optimal, unless taking in account the step: when the step cost =a, on the other hand DFS , a star constant are optimal. 
+
 5) In your opinion what are the benefits of simpler algorithms versus more complex ones?
+In our opinion the benefits of simpler algorithms is that you can get an answer faster, but it might not be the most optimal answer.
+An important fact that determines the efficiency of the algorithm is the heuristic function.

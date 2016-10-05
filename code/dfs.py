@@ -1,5 +1,5 @@
 import sys
-
+from cStringIO import StringIO
 
 #push the root node into the stack
 #while the stack remains full
@@ -15,7 +15,6 @@ pathStack = []
 visitedStack = [] #nodes that were already visited
 stateQueue = []
 state = 1
-mopoveCount = 0
 
 class Node(object):
     def __init__(self):
@@ -162,9 +161,19 @@ if len(sys.argv) == 2:
     stateQueue.insert(0,root)
     
     if dfs(stateQueue, containers, final):
-        print '\n\tSOLUTION'
-        print moveCount
-        print pathStack
+        #print '\n\tSOLUTION'
+        print moveCount-1
+        pathStack.pop(0)
+        path = StringIO()
+        # print pathStack
+        for p in range(0,len(pathStack)):
+            if p == len(pathStack)-1:
+                path.write("("+pathStack[p]+")")
+            else:
+                path.write("("+pathStack[p]+")")
+                path.write(",")
+        print path.getvalue()
+        print "visited", len(visitedStack)
     else:
         print '\n\t NO SOLUTION FOUND \n'
 else: 

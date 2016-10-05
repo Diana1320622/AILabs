@@ -2,6 +2,7 @@ import sys
 import operator
 import re
 from collections import deque
+from cStringIO import StringIO
 # a*
 #cost f(n) = g + h
 #push the root into the stack 
@@ -119,16 +120,16 @@ def a_star(stateQueue, start, goal):
     
     # for i in range(0,3):
     while stateQueue:
-        print goal
-        print start
+        #print goal
+        #print start
         lengthStack = []
         moveStack = [] #(start,finish)
         aux = stateQueue.popleft()
         moveCount = moveCount+1
         #add to the visited states
-        print 'popped node:',aux.problem
-        print 'popped node move:',aux.action
-        print 'popped node F:',aux.F
+        #print 'popped node:',aux.problem
+        #print 'popped node move:',aux.action
+        #print 'popped node F:',aux.F
         pathStack.append(aux.action) #movements done
         visitedStack.append(aux) #visited nodes
             
@@ -158,7 +159,7 @@ def a_star(stateQueue, start, goal):
                 else:
                     xCount = xCount+1
     
-            print 'moveStack:',moveStack                    
+            #print 'moveStack:',moveStack                    
             #add nodes to the queue
             countWeights = 0
             for move in moveStack:
@@ -167,14 +168,14 @@ def a_star(stateQueue, start, goal):
                 countWeights = countWeights + 1
             
             nodeList = sorted(costDictionary.items(), key=lambda x:x[1]) #h value
-            print "nodelist:", nodeList 
+            #print "nodelist:", nodeList 
             
             countWeights = 0
             for pair in nodeList:    
                 newNode = childNode(createList(pair[0],aux.problem),aux,move,weightStack[countWeights],calculateG(weightStack[countWeights]),pair[1])
                 countWeights = countWeights + 1
-                print 'new:',newNode.problem
-                print 'g: ', newNode.G
+                #print 'new:',newNode.problem
+                #print 'g: ', newNode.G
                 if not lookforNode(newNode):
                     stateQueue.append(newNode)
  
@@ -203,11 +204,22 @@ if len(sys.argv) == 2:
     stateQueue.append(root)
     
     if a_star(stateQueue, containers, final):
-        print '\n\tSOLUTION'
+        #print '\n\tSOLUTION'
         print moveCount
         #solution = [i for i in pathStack if isinstance(i, (inre.sub('[^0-9]', '', pathStack)
-        print pathStack
+        #print pathStack
         #print '(',solution,')'
+        pathStack.pop(0)
+        path = StringIO()
+        # print pathStack
+        for p in range(0,len(pathStack)):
+            if p == len(pathStack)-1:
+                path.write("("+pathStack[p]+")")
+            else:
+                path.write("("+pathStack[p]+")")
+                path.write(",")
+        print path.getvalue()
+        
     else:
         print '\n\t NO SOLUTION FOUND \n'
 else: 

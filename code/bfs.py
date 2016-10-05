@@ -1,11 +1,11 @@
 import sys
 from collections import deque
+from cStringIO import StringIO
 
 pathStack = [] 
 visitedStack = [] #nodes that were already visited
 stateQueue = deque([])
 state = 1
-mopoveCount = 0
 
 class Node(object):
     def __init__(self):
@@ -143,9 +143,18 @@ if len(sys.argv) == 2:
     stateQueue.append(root)
     
     if bfs(stateQueue, containers, final):
-        print '\n\tSOLUTION'
-        print moveCount
-        print pathStack
+        print moveCount-1
+        pathStack.pop(0)
+        path = StringIO()
+        # print pathStack
+        for p in range(0,len(pathStack)):
+            if p == len(pathStack)-1:
+                path.write("("+pathStack[p]+")")
+            else:
+                path.write("("+pathStack[p]+")")
+                path.write(",")
+        print path.getvalue()
+        
     else:
         print '\n\t NO SOLUTION FOUND \n'
 else: 
