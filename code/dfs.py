@@ -69,7 +69,10 @@ def createList(move, parentList):
     
     
 def lookforNode(n):
+    print "checkvisitedstack:",len(visitedStack)
     for node in visitedStack:
+        print "problemVisited:",node.problem
+        print "node.problem:",n.problem
         if node.problem == n.problem:
             print "found!"
             return True
@@ -155,7 +158,6 @@ if len(sys.argv) == 2:
     goalClean = goal.replace("(", "")
     goalClean = goalClean.replace(")", "")
     final = goalClean.split('; ')
-    
     
     root = childNode(containers, None, None)
     stateQueue.insert(0,root)
