@@ -1,8 +1,19 @@
 Make a table comparing how many nodes are searched to find the answer for each problem. For this table, you should compare a number of different problems (at least 3) to avoid a statistical bias. 
 
+	                Dummy1      Dummy2	    Dummy3
+Dfs			        
+Bfs			
+A* consistent			
+A* inconsistent			
 
 
 1) Which heuristics did you use for the A* algorithm?
+For the A* algorithm our consistent heuristic was the travel length to one stack to another.
+For example: if we have a container in 0 stack and we want to move it to 2stack, then the number of movements are 2.
+We use: abs(finalpoint - initialpoint), in order to get the number of movements.
+
+For the inconsistent heuristic 
+
 2) Which of the four algorithms searches the least nodes and which one take the most?
 3) Why does this happen? 
 4) Which algorithms are optimal? Why?

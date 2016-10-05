@@ -71,6 +71,7 @@ def createList(move, parentList):
 def lookforNode(n):
     for node in visitedStack:
         if node.problem == n.problem:
+            print "found!"
             return True
         else:
             return False
@@ -100,8 +101,8 @@ def dfs(stateQueue, start, goal):
         #add to the visited states
         print 'popped node:',aux.problem
         pathStack.append(aux.action)
-        visitedStack.insert(0,aux) #--------
-        # visitedStack.append(aux)
+        # visitedStack.insert(0,aux) #--------
+        visitedStack.append(aux)
             
         #check if the current state is the goal 
         if checkGoal(aux,goal):
