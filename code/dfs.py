@@ -1,56 +1,47 @@
 import sys
-import operator
-from collections import deque
-# a*
-#cost f(n) = g + h
-#push the root into the stack 
-#need open, visited and successors list 
 
-pathStack = []
-stateQueue = deque([])
-visitedStack = [] #nodes visited
-successors = []
-weightStack = []
-costDictionary = {}
-orderedSuccesors = [];
-auxOrderedSuccesors = [];
-nodeList = []
+
+#push the root node into the stack
+#while the stack remains full
+#remove the first in the stack LIFO
+#insert node in visited
+#check if its the node with the goal
+#calculate the next nodes
+#for every new node: check if its not in the visited stack
+#if it isnt add it to the stack at the beginning
+#repeat
+
+pathStack = [] 
+visitedStack = [] #nodes that were already visited
+stateQueue = []
+state = 1
+mopoveCount = 0
+
 class Node(object):
     def __init__(self):
-        self.problem = None #current node (contxainers) list
+        self.problem = None #current node (containers) list
         self.parent = None
         self.action = None
-        self.H = 0
-        self.G = 0
-        self.F = 0
 
-def childNode(problem, parent, action, h, g, f):
+def childNode(problem, parent, action):
     node = Node()
     node.action = action
     node.parent = parent
     node.problem = problem
-    node.H = h
-    node.G = g
-    node.F = f
-    
-    # acumG = 0
-    # #calculate G based on the Gs above
-    # for visited in visitedStack:
-    #     acumG = acumG + visited.G + (1+h)
-    
-    # node.G = acumG
-    # node.F = node.G + node.H
-    
     return node
-
-def calculateG(h):
-    acumG = 0
-    #calculate G based on the Gs above
-    for visited in visitedStack:
-        acumG = acumG + visited.G + (1+h)
     
-    return acumG
-        
+    
+def checkGoal(node,goal):
+    count = 0
+    for pair in goal:
+        if pair != 'X':
+            if node.problem[count] != pair:
+                return False
+        else:
+            count = count+1
+    return True      
+    
+
 def createList(move, parentList):
     moves = move.split(',')
     origin = int(moves[0])
@@ -75,12 +66,8 @@ def createList(move, parentList):
 
     newList.insert(end,','.join(endList)) #return the stack to the list
     return newList
- 
- 
-#eturn the list of direct descendants in shortest total estimation order
-def totalSuccesors(currentNode):
-    return
-
+    
+    
 def lookforNode(n):
     for node in visitedStack:
         if node.problem == n.problem:
@@ -88,45 +75,33 @@ def lookforNode(n):
         else:
             return False
 
-def checkGoal(node,goal):
-    count = 0
-    for pair in goal:
-        if pair != 'X':
-            if node.problem[count] != pair:
-                return False
-        else:
-            count = count+1
-    return True     
-    
-def a_star(stateQueue, start, goal):
-    
-    #while the stack is not empty
-    #   remove the last node in the stack
-    #   insert node in visited
-    #   check if it is the goal
-    #   if not, return the list of direct descendants in shortest total estimation order
-    #   for each element into the list
-    #       check if it isnt in visited list
-    
-    #           insert in open list
-    
+def dfs(stateQueue, start, goal):
+    #push the root node into the stack
+    #while the stack remains full
+    #remove the first in the stack LIFO
+    #insert node in visited
+    #check if its the node with the goal
+    #calculate the next nodes
+    #for every new node: check if its not in the visited stack
+    #if it isnt add it to the stack at the beginning
+    #repeat
+        
     global moveCount # needs to be declared global 
     moveCount = 0
     
-    # for i in range(0,3):
-    while stateQueue:
+    for i in range(0,5):
+    # while stateQueue:
         print goal
         print start
         lengthStack = []
         moveStack = [] #(start,finish)
-        aux = stateQueue.popleft()
+        aux = stateQueue.pop(0) #pop first
         moveCount = moveCount+1
         #add to the visited states
         print 'popped node:',aux.problem
-        print 'popped node move:',aux.action
-        print 'popped node F:',aux.F
-        pathStack.append(aux.action) #movements done
-        visitedStack.append(aux) #visited nodes
+        pathStack.append(aux.action)
+        visitedStack.insert(0,aux) #--------
+        # visitedStack.append(aux)
             
         #check if the current state is the goal 
         if checkGoal(aux,goal):
@@ -149,34 +124,19 @@ def a_star(stateQueue, start, goal):
                         if res != x:
                             if lengthStack[res] < height:
                                 moveStack.append(str(x)+','+ str(res))
-                                h = abs(res-x) 
-                                weightStack.append(h);
                 else:
                     xCount = xCount+1
     
             print 'moveStack:',moveStack                    
             #add nodes to the queue
-            countWeights = 0
             for move in moveStack:
-                #get the array in order of shortest estimation to largest
-                costDictionary[move] = weightStack[countWeights]+calculateG(weightStack[countWeights]) #this is the key as the move and the values as F (h+g)
-                countWeights = countWeights + 1
-            
-            nodeList = sorted(costDictionary.items(), key=lambda x:x[1]) #h value
-            print "nodelist:", nodeList 
-            
-            countWeights = 0
-            for pair in nodeList:    
-                newNode = childNode(createList(pair[0],aux.problem),aux,move,weightStack[countWeights],calculateG(weightStack[countWeights]),pair[1])
-                countWeights = countWeights + 1
+                # print 'aux problem:', aux.problem
+                newNode = childNode(createList(move,aux.problem),aux,move)
                 print 'new:',newNode.problem
-                print 'g: ', newNode.G
                 if not lookforNode(newNode):
-                    stateQueue.append(newNode)
- 
-    return False
-
-
+                    stateQueue.insert(0,newNode) #-------
+    return False            
+            
 #main
 if len(sys.argv) == 2:
     inputs = sys.argv
@@ -195,15 +155,15 @@ if len(sys.argv) == 2:
     goalClean = goalClean.replace(")", "")
     final = goalClean.split('; ')
     
-    root = childNode(containers, None, None, 0,0,0)
-    stateQueue.append(root)
     
-    if a_star(stateQueue, containers, final):
+    root = childNode(containers, None, None)
+    stateQueue.insert(0,root)
+    
+    if dfs(stateQueue, containers, final):
         print '\n\tSOLUTION'
-        # print moveCount
-        # print pathStack
+        print moveCount
+        print pathStack
     else:
         print '\n\t NO SOLUTION FOUND \n'
 else: 
     print("Invalid Input")
-
